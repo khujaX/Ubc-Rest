@@ -1,14 +1,19 @@
 from .models import News, Category, User
 from rest_framework.permissions import IsAuthenticated
-from django.core.paginator import Paginator
 from rest_framework import generics
 from . import serializers
+from rest_framework import viewsets
 from .permissions import *
 from .paginations import NewsResultPagination
 from rest_framework.parsers import MultiPartParser
 
 
 class NewsList(generics.ListAPIView):
+    queryset = News.objects.all()
+    serializer_class = serializers.NewsSerializer
+    pagination_class = NewsResultPagination
+
+class NewsViewset(viewsets.ModelViewSet):
     queryset = News.objects.all()
     serializer_class = serializers.NewsSerializer
     pagination_class = NewsResultPagination
@@ -37,6 +42,11 @@ class CategoryList(generics.ListAPIView):
     serializer_class = serializers.CategorySerializer
 
 
+class CategoryViewset(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = serializers.CategorySerializer
+
+
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = serializers.CategorySerializer
@@ -49,6 +59,11 @@ class CategoryCreate(generics.CreateAPIView):
 
 
 class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = serializers.UserSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
